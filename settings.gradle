@@ -1,1 +1,1 @@
-include ':example', ':subscriber'
+include ':example', ':rxjava2-loading'
