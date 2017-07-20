@@ -16,6 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -32,31 +33,34 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void test(View v) {
-        Observable.just("一脸懵逼")
+        Observable.zip(testObservable("我是一"), testObservable("我是二"),
+                new BiFunction<String,String,String>() {
+                    @Override
+                    public String apply(@NonNull String s, @NonNull String s2) throws Exception {
+                        return s+"----"+s2;
+                    }
+                })
+                .compose(RxSchedulers.io2main())
+                .subscribe(RxObserver.loadingDialog(this, new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        Log.d("------------>", o + "--------->onNext");
+                    }
+                }));
+    }
+
+
+    public Observable testObservable(String text) {
+        return Observable.just(text)
                 .map(new Function<String, String>() {
                     @Override
                     public String apply(@NonNull String s) throws Exception {
                         Thread.sleep(new Random().nextInt(3000) + 1000);
                         Log.d(Thread.currentThread().getName() + "-------------->", "map----->" + s);
-                        throw new RuntimeException();
-                        //return "转换---->" + s;
+                        return s;
                     }
                 })
-                .compose(RxSchedulers.io2main())
-                //.compose(RxCompose.loadingDialog(this))
-                /*.subscribe(RxObserver.loadingDialog(this, new Consumer() {
-                    @Override
-                    public void accept(@NonNull Object o) throws Exception {
-                        Toast.makeText(MainActivity.this, o+"--->成功", Toast.LENGTH_SHORT).show();
-                    }
-
-                }))*/
-                .subscribe(RxObserver.loadingDialog(this, new Consumer<Object>() {
-                    @Override
-                    public void accept(@NonNull Object o) throws Exception {
-                        Log.d("------------>",o+"--------->onNext");
-                    }
-                }));
+                .compose(RxSchedulers.io2main());
     }
 
     public void test1(View v) {
