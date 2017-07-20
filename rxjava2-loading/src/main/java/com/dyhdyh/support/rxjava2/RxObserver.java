@@ -3,8 +3,8 @@ package com.dyhdyh.support.rxjava2;
 import android.content.Context;
 import android.view.View;
 
+import com.dyhdyh.support.rxjava2.action.LoadingBarCancelAction;
 import com.dyhdyh.support.rxjava2.action.LoadingDialogCancelAction;
-import com.dyhdyh.support.rxjava2.consumer.LoadingBarCancelConsumer;
 import com.dyhdyh.support.rxjava2.consumer.LoadingBarShowConsumer;
 import com.dyhdyh.support.rxjava2.consumer.LoadingDialogShowConsumer;
 import com.dyhdyh.support.rxjava2.consumer.ToastShowErrorConsumer;
@@ -27,7 +27,7 @@ public class RxObserver {
         return new LambdaObserver<T>(
                 onNext,
                 new ViewErrorConsumer(parent),
-                new LoadingBarCancelConsumer(parent),
+                new LoadingBarCancelAction(parent),
                 new LoadingBarShowConsumer(parent)
         );
     }

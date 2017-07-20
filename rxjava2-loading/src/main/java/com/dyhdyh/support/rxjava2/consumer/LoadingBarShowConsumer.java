@@ -13,7 +13,7 @@ import io.reactivex.functions.Consumer;
  * author  dengyuhan
  * created 2017/7/18 17:19
  */
-public class LoadingBarShowConsumer extends AbstractLoadingShowConsumer<LoadingBarShowAction> {
+public class LoadingBarShowConsumer extends LoadingShowConsumer<LoadingBarShowAction> {
 
     public LoadingBarShowConsumer(View parent) {
         this(parent, new Consumer<LoadingBarShowAction>() {

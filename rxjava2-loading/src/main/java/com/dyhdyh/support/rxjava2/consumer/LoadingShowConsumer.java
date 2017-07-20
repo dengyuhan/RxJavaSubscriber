@@ -7,11 +7,11 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 
-public abstract class AbstractLoadingShowConsumer<Action extends LoadingShowAction> implements Consumer<Disposable> {
+public abstract class LoadingShowConsumer<Action extends LoadingShowAction> implements Consumer<Disposable> {
     private Action mAction;
     private Consumer<Action> mLoading;
 
-    public AbstractLoadingShowConsumer(Action action, Consumer<Action> loading) {
+    public LoadingShowConsumer(Action action, Consumer<Action> loading) {
         this.mAction = action;
         this.mLoading = loading;
     }

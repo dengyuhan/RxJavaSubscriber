@@ -13,7 +13,7 @@ import io.reactivex.functions.Consumer;
  * author  dengyuhan
  * created 2017/7/18 17:19
  */
-public class LoadingDialogShowConsumer extends AbstractLoadingShowConsumer<LoadingDialogShowAction> {
+public class LoadingDialogShowConsumer extends LoadingShowConsumer<LoadingDialogShowAction> {
 
 
     public LoadingDialogShowConsumer(Context context) {
