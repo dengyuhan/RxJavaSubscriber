@@ -11,6 +11,7 @@ import com.dyhdyh.widget.loading.bar.LoadingBar;
 import io.reactivex.functions.BiConsumer;
 
 /**
+ * 以View形式提示错误
  * author  dengyuhan
  * created 2017/7/20 14:53
  */

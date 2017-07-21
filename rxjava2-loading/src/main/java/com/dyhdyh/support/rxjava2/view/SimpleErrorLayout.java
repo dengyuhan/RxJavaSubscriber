@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.dyhdyh.support.rxjava2.R;
 
 /**
+ * 错误的布局
  * author  dengyuhan
  * created 2017/7/20 14:47
  */
