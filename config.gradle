@@ -3,7 +3,7 @@ ext {
             [
                     //版本号
                     versionCode      : 1,
-                    versionName      : "1.0.0",
+                    versionName      : "1.0.0-beta",
 
                     //sdk版本
                     compileSdkVersion: 26,
@@ -13,36 +13,37 @@ ext {
                     supportVersion   : "26.1.0",
 
                     //rxjava版本
-                    rxjavaVersion: "1.3.7",
-                    rxandroidVersion: "1.2.1",
-                    rxjava2Version: "2.1.1",
+                    rxjavaVersion    : "1.3.7",
+                    rxandroidVersion : "1.2.1",
+                    rxjava2Version   : "2.1.1",
                     rxandroid2Version: "2.0.1",
             ]
 
     jcenter =
             [
                     //项目名称
-                    name       : "jcenter-example",
-                    groupId    : "com.dyhdyh.example",
+                    name_subscribers           : "subscribers",
+                    name_subscribers_loadingbar: "subscribers-loadingbar",
+                    groupId                    : "com.dyhdyh.rxjava",
                     //项目地址
-                    siteUrl    : "https://github.com/dengyuhan/jcenter-example",
+                    siteUrl                    : "https://github.com/dengyuhan/RxJavaSubscriber",
                     //项目git地址
-                    gitUrl     : "https://github.com/dengyuhan/jcenter-example.git",
+                    gitUrl                     : "https://github.com/dengyuhan/RxJavaSubscriber.git",
                     //项目描述
-                    description: "上传项目到jcenter的示例",
+                    description                : "预设了一些rxjava和rxjava2的subscriber",
                     //开发者的一些基本信息
-                    authorId   : "dengyuhan",
-                    authorName : "dengyuhan",
-                    authorEmail: "22309946@qq.com",
+                    authorId                   : "dengyuhan",
+                    authorName                 : "dengyuhan",
+                    authorEmail                : "22309946@qq.com",
 
                     //开源协议
-                    licenses   : {
+                    licenses                   : {
                         license {
-                            name 'MIT'
-                            url 'https://opensource.org/licenses/MIT'
+                            name 'Apache-2.0'
+                            url 'https://opensource.org/licenses/Apache-2.0'
                         }
                     },
-                    licenseName: 'MIT'
+                    licenseName                : 'Apache-2.0'
             ]
 
 
