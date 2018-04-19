@@ -1,1 +1,1 @@
-include ':example', ':rxjava2-loading'
+include ':example', ':rxjava2-subscriber', ':rxjava-subscriber', ':subscribers', ':subscribers-loadingbar'

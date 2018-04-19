@@ -1,0 +1,10 @@
+apply plugin: 'com.android.library'
+apply from: "bintray.gradle"
+
+dependencies {
+    compileOnly "io.reactivex:rxjava:$rootProject.ext.android.rxjavaVersion"
+    compileOnly "io.reactivex:rxandroid:$rootProject.ext.android.rxandroidVersion"
+
+    compileOnly "io.reactivex.rxjava2:rxjava:$rootProject.ext.android.rxjava2Version"
+    compileOnly "io.reactivex.rxjava2:rxandroid:$rootProject.ext.android.rxandroid2Version"
+}
