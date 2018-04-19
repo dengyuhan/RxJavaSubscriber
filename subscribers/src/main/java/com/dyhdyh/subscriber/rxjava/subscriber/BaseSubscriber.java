@@ -1,9 +1,10 @@
-package com.dyhdyh.subscriber.rxjava;
+package com.dyhdyh.subscriber.rxjava.subscriber;
 
 import com.dyhdyh.subscriber.handler.ErrorHandler;
 import com.dyhdyh.subscriber.handler.LoadingHandler;
 
 import rx.Subscriber;
+
 
 /**
  * @author dengyuhan

@@ -1,4 +1,4 @@
-package com.dyhdyh.subscribers.loadingbar;
+package com.dyhdyh.subscriber.rxjava2;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers;
  * author  dengyuhan
  * created 2017/7/18 17:56
  */
-public class RxSchedulers {
+public class RxJava2Schedulers {
 
     public static <T> ObservableTransformer<T, T> io2main() {
         return new ObservableTransformer<T, T>() {

@@ -10,7 +10,7 @@ import com.dyhdyh.widget.loading.bar.LoadingBar;
  * @author dengyuhan
  *         created 2018/4/19 15:22
  */
-public class SimpleLoadingBarHandler implements LoadingHandler<String> {
+public class SimpleLoadingBarHandler implements LoadingHandler<CharSequence> {
     protected View mParent;
 
     public SimpleLoadingBarHandler(View parent) {
@@ -19,7 +19,7 @@ public class SimpleLoadingBarHandler implements LoadingHandler<String> {
 
 
     @Override
-    public void show(String params) {
+    public void show(CharSequence params) {
         LoadingBar.make(mParent).show();
     }
 
