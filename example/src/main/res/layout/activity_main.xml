@@ -9,13 +9,14 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="test"
-        android:text="Hello World!" />
+        android:onClick="clickLoadingBarSubscriber"
+        android:text="LoadingBar Subscriber" />
 
-    <TextView
-        android:id="@+id/tv"
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="clickLoadingDialogSubscriber"
+        android:text="LoadingDialog Subscriber" />
 
     <RelativeLayout
         android:id="@+id/layout_content"

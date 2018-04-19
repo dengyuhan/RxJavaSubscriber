@@ -4,7 +4,7 @@ android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
-        applicationId "com.dyhdyh.rxjava.subscriber.example"
+        applicationId "com.dyhdyh.rxjava.subscribers.example"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
@@ -22,5 +22,13 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    compile project(':rxjava2-subscriber')
+
+    implementation "io.reactivex:rxjava:$rootProject.ext.android.rxjavaVersion"
+    implementation "io.reactivex:rxandroid:$rootProject.ext.android.rxandroidVersion"
+
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.android.rxjava2Version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.android.rxandroid2Version"
+
+    compile project(':subscribers')
+    compile project(':subscribers-loadingbar')
 }
