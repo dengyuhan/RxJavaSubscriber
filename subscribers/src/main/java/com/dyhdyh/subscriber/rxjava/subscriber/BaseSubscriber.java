@@ -55,4 +55,12 @@ public class BaseSubscriber<T, LP, EP> extends Subscriber<T> {
             mLoadingHandler.cancel();
         }
     }
+
+    public LoadingHandler<LP> getLoadingHandler() {
+        return mLoadingHandler;
+    }
+
+    public ErrorHandler<EP> getErrorHandler() {
+        return mErrorHandler;
+    }
 }
