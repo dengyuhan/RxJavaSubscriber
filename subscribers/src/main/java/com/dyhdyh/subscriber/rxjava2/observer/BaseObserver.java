@@ -56,4 +56,13 @@ public class BaseObserver<T, LP, EP> implements Observer<T> {
             mLoadingHandler.cancel();
         }
     }
+
+
+    public LoadingHandler<LP> getLoadingHandler() {
+        return mLoadingHandler;
+    }
+
+    public ErrorHandler<EP> getErrorHandler() {
+        return mErrorHandler;
+    }
 }
