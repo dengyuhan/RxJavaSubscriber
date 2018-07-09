@@ -26,21 +26,18 @@ public class BaseObserver<T, LP, EP> implements Observer<T> {
     @Override
     public void onSubscribe(Disposable d) {
         //显示loading
-        if (mLoadingHandler != null) {
-            mLoadingHandler.show(null);
-        }
+        showLoading(null);
     }
 
     @Override
     public void onError(Throwable e) {
+        if (isPrintStackTrace()){
+            e.printStackTrace();
+        }
         //取消loading
-        if (mLoadingHandler != null) {
-            mLoadingHandler.cancel();
-        }
+        cancelLoading();
         //错误提示
-        if (mErrorHandler != null) {
-            mErrorHandler.showError(null, e);
-        }
+        showError(null, e);
     }
 
     @Override
@@ -52,11 +49,32 @@ public class BaseObserver<T, LP, EP> implements Observer<T> {
     @Override
     public void onNext(T t) {
         //取消loading
+        cancelLoading();
+    }
+
+
+    public void showLoading(LP params) {
+        if (mLoadingHandler != null) {
+            mLoadingHandler.show(params);
+        }
+    }
+
+    public void cancelLoading() {
         if (mLoadingHandler != null) {
             mLoadingHandler.cancel();
         }
     }
 
+    public void showError(EP errorParams, Throwable e) {
+        if (mErrorHandler != null) {
+            mErrorHandler.showError(errorParams, e);
+        }
+    }
+
+
+    public boolean isPrintStackTrace() {
+        return true;
+    }
 
     public LoadingHandler<LP> getLoadingHandler() {
         return mLoadingHandler;
