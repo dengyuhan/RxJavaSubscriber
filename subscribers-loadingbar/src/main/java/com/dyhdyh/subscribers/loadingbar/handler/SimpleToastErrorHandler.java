@@ -15,20 +15,15 @@ import com.dyhdyh.subscriber.handler.ErrorHandler;
 public class SimpleToastErrorHandler implements ErrorHandler<CharSequence> {
 
     protected Context mContext;
-    private CharSequence mMessage;
 
     public SimpleToastErrorHandler(Context context) {
-        this(context, null);
-    }
-
-    public SimpleToastErrorHandler(Context context, CharSequence message) {
         this.mContext = context;
-        this.mMessage = message;
     }
 
     @Override
     public void showError(CharSequence errorParams, Throwable e) {
-        CharSequence message = TextUtils.isEmpty(errorParams) ? mMessage : errorParams;
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+        if (!TextUtils.isEmpty(errorParams)){
+            Toast.makeText(mContext, errorParams, Toast.LENGTH_SHORT).show();
+        }
     }
 }

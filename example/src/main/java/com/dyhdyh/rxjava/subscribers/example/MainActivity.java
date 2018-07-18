@@ -5,14 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.dyhdyh.subscriber.rxjava.RxJavaSchedulers;
-import com.dyhdyh.subscribers.loadingbar.rxjava.SimpleLoadingBarSubscriber;
-import com.dyhdyh.subscribers.loadingbar.rxjava.SimpleLoadingDialogSubscriber;
+import com.dyhdyh.subscriber.rxjava2.RxJava2Schedulers;
+import com.dyhdyh.subscribers.loadingbar.rxjava2.SimpleLoadingBarObserver;
+import com.dyhdyh.subscribers.loadingbar.rxjava2.SimpleLoadingDialogObserver;
 
 import java.util.Random;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickLoadingBarSubscriber(View view) {
         createAsyncObservable()
-                .subscribe(new SimpleLoadingBarSubscriber<String>(layoutContent, "加载失败") {
+                .subscribe(new SimpleLoadingBarObserver<String>(layoutContent, "加载失败") {
                     @Override
                     public void onNext(String s) {
                         super.onNext(s);
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickLoadingDialogSubscriber(View view) {
         createAsyncObservable()
-                .subscribe(new SimpleLoadingDialogSubscriber<String>(this, "正在加载", "加载失败") {
+                .subscribe(new SimpleLoadingDialogObserver<String>(this, "正在加载", "加载失败") {
                     @Override
                     public void onNext(String s) {
                         super.onNext(s);
@@ -52,21 +53,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     public Observable<String> createAsyncObservable() {
-        return Observable.create(new Observable.OnSubscribe<String>() {
+        return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void call(Subscriber<? super String> subscriber) {
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 if (new Random().nextBoolean()) {
-                    subscriber.onNext("成功");
+                    emitter.onNext("成功");
                 } else {
-                    subscriber.onError(new Exception("随机失败"));
+                    emitter.onError(new Exception("随机失败"));
                 }
-                subscriber.onCompleted();
+                emitter.onComplete();
             }
-        }).compose(RxJavaSchedulers.<String>io2main());
+        }).compose(RxJava2Schedulers.<String>io2main());
     }
 }

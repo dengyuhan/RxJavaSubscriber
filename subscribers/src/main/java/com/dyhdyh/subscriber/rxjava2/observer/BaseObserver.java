@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable;
  * @author dengyuhan
  *         created 2018/4/19 15:41
  */
-public class BaseObserver<T, LP, EP> implements Observer<T> {
+public abstract class BaseObserver<T, LP, EP> implements Observer<T> {
     private LoadingHandler<LP> mLoadingHandler;
     private ErrorHandler<EP> mErrorHandler;
 
@@ -18,15 +18,14 @@ public class BaseObserver<T, LP, EP> implements Observer<T> {
 
     }
 
-    public BaseObserver(LoadingHandler<LP> loadingHandler, ErrorHandler<EP> errorHandler) {
-        this.mLoadingHandler = loadingHandler;
-        this.mErrorHandler = errorHandler;
-    }
+    public abstract LoadingHandler<LP> createLoadingHandler();
+
+    public abstract ErrorHandler<EP> createErrorHandler();
 
     @Override
     public void onSubscribe(Disposable d) {
         //显示loading
-        showLoading(buildLoadingParams());
+        showLoading(buildLoadingParams(), getLoadingHandler());
     }
 
     @Override
@@ -35,9 +34,9 @@ public class BaseObserver<T, LP, EP> implements Observer<T> {
             e.printStackTrace();
         }
         //取消loading
-        cancelLoading();
+        cancelLoading(getLoadingHandler());
         //错误提示
-        showError(buildErrorParams(e), e);
+        showError(buildErrorParams(e), e, getErrorHandler());
     }
 
 
@@ -50,19 +49,19 @@ public class BaseObserver<T, LP, EP> implements Observer<T> {
     @Override
     public void onNext(T t) {
         //取消loading
-        cancelLoading();
+        cancelLoading(getLoadingHandler());
     }
 
 
-    public void showLoading(LP params) {
-        if (mLoadingHandler != null) {
-            mLoadingHandler.show(params);
+    public void showLoading(LP params, LoadingHandler<LP> handler) {
+        if (handler != null) {
+            handler.show(params);
         }
     }
 
-    public void cancelLoading() {
-        if (mLoadingHandler != null) {
-            mLoadingHandler.cancel();
+    public void cancelLoading(LoadingHandler<LP> handler) {
+        if (handler != null) {
+            handler.cancel();
         }
     }
 
@@ -71,9 +70,9 @@ public class BaseObserver<T, LP, EP> implements Observer<T> {
         return null;
     }
 
-    public void showError(EP errorParams, Throwable e) {
-        if (mErrorHandler != null) {
-            mErrorHandler.showError(errorParams, e);
+    public void showError(EP errorParams, Throwable e, ErrorHandler<EP> handler) {
+        if (handler != null) {
+            handler.showError(errorParams, e);
         }
     }
 
@@ -87,10 +86,16 @@ public class BaseObserver<T, LP, EP> implements Observer<T> {
     }
 
     public LoadingHandler<LP> getLoadingHandler() {
+        if (mLoadingHandler == null) {
+            mLoadingHandler = this.createLoadingHandler();
+        }
         return mLoadingHandler;
     }
 
     public ErrorHandler<EP> getErrorHandler() {
+        if (mErrorHandler == null) {
+            mErrorHandler = this.createErrorHandler();
+        }
         return mErrorHandler;
     }
 }

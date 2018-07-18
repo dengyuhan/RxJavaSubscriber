@@ -27,8 +27,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:$rootProject.ext.android.supportVersion"
 
-    implementation "io.reactivex:rxjava:$rootProject.ext.android.rxjavaVersion"
-    implementation "io.reactivex:rxandroid:$rootProject.ext.android.rxandroidVersion"
+    //implementation "io.reactivex:rxjava:$rootProject.ext.android.rxjavaVersion"
+    //implementation "io.reactivex:rxandroid:$rootProject.ext.android.rxandroidVersion"
 
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.android.rxjava2Version"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.android.rxandroid2Version"

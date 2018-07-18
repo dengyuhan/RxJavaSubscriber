@@ -14,20 +14,18 @@ import com.dyhdyh.widget.loading.dialog.LoadingDialog;
  */
 public class SimpleLoadingDialogHandler implements LoadingHandler<CharSequence> {
     protected Context mContext;
-    private CharSequence mMessage;
 
     public SimpleLoadingDialogHandler(Context context) {
-        this(context, null);
-    }
-
-    public SimpleLoadingDialogHandler(Context context, CharSequence message) {
         this.mContext = context;
-        this.mMessage = message;
     }
 
     @Override
     public void show(CharSequence params) {
-        LoadingDialog.make(mContext).setMessage(TextUtils.isEmpty(params) ? mMessage : params).show();
+        if (TextUtils.isEmpty(params)) {
+            LoadingDialog.make(mContext).show();
+        } else {
+            LoadingDialog.make(mContext).setMessage(params).show();
+        }
     }
 
     @Override
