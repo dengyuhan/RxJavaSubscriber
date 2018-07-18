@@ -26,19 +26,20 @@ public class BaseObserver<T, LP, EP> implements Observer<T> {
     @Override
     public void onSubscribe(Disposable d) {
         //显示loading
-        showLoading(null);
+        showLoading(buildLoadingParams());
     }
 
     @Override
     public void onError(Throwable e) {
-        if (isPrintStackTrace()){
+        if (isPrintStackTrace()) {
             e.printStackTrace();
         }
         //取消loading
         cancelLoading();
         //错误提示
-        showError(null, e);
+        showError(buildErrorParams(e), e);
     }
+
 
     @Override
     public void onComplete() {
@@ -65,10 +66,19 @@ public class BaseObserver<T, LP, EP> implements Observer<T> {
         }
     }
 
+
+    protected LP buildLoadingParams() {
+        return null;
+    }
+
     public void showError(EP errorParams, Throwable e) {
         if (mErrorHandler != null) {
             mErrorHandler.showError(errorParams, e);
         }
+    }
+
+    protected EP buildErrorParams(Throwable e) {
+        return null;
     }
 
 
