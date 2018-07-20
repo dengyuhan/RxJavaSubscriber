@@ -2,8 +2,8 @@ ext {
     android =
             [
                     //版本号
-                    versionCode      : 7,
-                    versionName      : "1.0.0-beta7",
+                    versionCode      : 9,
+                    versionName      : "1.0.0-beta9",
 
                     //sdk版本
                     compileSdkVersion: 26,
@@ -30,7 +30,7 @@ ext {
                     //项目git地址
                     gitUrl                     : "https://github.com/dengyuhan/RxJavaSubscriber.git",
                     //项目描述
-                    description                : "预设了一些rxjava和rxjava2的subscriber",
+                    description                : "预设了一些RxJava2的Observer",
                     //开发者的一些基本信息
                     authorId                   : "dengyuhan",
                     authorName                 : "dengyuhan",

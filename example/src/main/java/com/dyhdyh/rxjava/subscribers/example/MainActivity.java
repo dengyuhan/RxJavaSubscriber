@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.dyhdyh.subscriber.rxjava2.RxJava2Schedulers;
+import com.dyhdyh.subscriber.rxjava2.RxJava2Observable;
 import com.dyhdyh.subscribers.loadingbar.rxjava2.SimpleLoadingBarObserver;
 import com.dyhdyh.subscribers.loadingbar.rxjava2.SimpleLoadingDialogObserver;
 
@@ -68,6 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 emitter.onComplete();
             }
-        }).compose(RxJava2Schedulers.<String>io2main());
+        }).compose(RxJava2Observable.<String>io2main());
     }
 }

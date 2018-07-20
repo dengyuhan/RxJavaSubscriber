@@ -15,15 +15,19 @@ import com.dyhdyh.widget.loading.bar.LoadingBar;
  */
 public class SimpleLoadingBarErrorHandler implements ErrorHandler<CharSequence> {
     protected View mParent;
+    private View.OnClickListener mErrorClickListener;
 
-    public SimpleLoadingBarErrorHandler(View parent) {
+    public SimpleLoadingBarErrorHandler(View parent, View.OnClickListener errorClickListener) {
         this.mParent = parent;
+        this.mErrorClickListener = errorClickListener;
     }
 
     @Override
     public void showError(CharSequence errorParams, Throwable e) {
-        if (!TextUtils.isEmpty(errorParams)){
-            LoadingBar.make(mParent, SimpleErrorLayout.create(mParent.getContext(), errorParams)).show();
+        if (!TextUtils.isEmpty(errorParams)) {
+            View errorLayout = SimpleErrorLayout.create(mParent.getContext(), errorParams);
+            errorLayout.setOnClickListener(mErrorClickListener);
+            LoadingBar.make(mParent, errorLayout).show();
         }
     }
 }

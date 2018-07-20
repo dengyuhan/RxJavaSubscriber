@@ -13,7 +13,7 @@ import com.dyhdyh.subscribers.loadingbar.handler.SimpleLoadingBarHandler;
  *         created 2018/4/19 16:20
  */
 public class SimpleLoadingBarObserver<T> extends CharSequenceObserver<T> {
-    private View mParent;
+    protected View mParent;
     private CharSequence mDefaultMessage;
 
     public SimpleLoadingBarObserver(View parent) {
@@ -33,11 +33,20 @@ public class SimpleLoadingBarObserver<T> extends CharSequenceObserver<T> {
 
     @Override
     public ErrorHandler<CharSequence> createErrorHandler() {
-        return new SimpleLoadingBarErrorHandler(mParent);
+        return new SimpleLoadingBarErrorHandler(mParent, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickErrorLayout(v);
+            }
+        });
     }
 
     @Override
     protected CharSequence buildErrorParams(Throwable e) {
         return mDefaultMessage;
+    }
+
+    public void onClickErrorLayout(View errorLayout) {
+
     }
 }
