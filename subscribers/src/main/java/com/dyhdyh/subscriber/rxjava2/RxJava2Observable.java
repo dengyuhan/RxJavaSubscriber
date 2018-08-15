@@ -32,25 +32,25 @@ public class RxJava2Observable {
      * @param function
      * @return
      */
-    public static <T> Observable<T> async(Function<Void, T> function) {
+    public static <T> Observable<T> async(Function<Object, T> function) {
         return create(function).compose(io2main());
     }
 
     public static <T> Observable<T> next(T t) {
-        return create(new Function<Void, T>() {
+        return create(new Function<Object, T>() {
             @Override
-            public T apply(Void aVoid) throws Exception {
+            public T apply(Object aVoid) throws Exception {
                 return t;
             }
         });
     }
 
-    public static <T> Observable<T> create(Function<Void, T> function) {
+    public static <T> Observable<T> create(Function<Object, T> function) {
         return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
             public void subscribe(ObservableEmitter<T> emitter) throws Exception {
                 try {
-                    emitter.onNext(function.apply(null));
+                    emitter.onNext(function.apply(new Object()));
                 } catch (Exception e) {
                     emitter.onError(e);
                 }
