@@ -33,7 +33,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.android.rxjava2Version"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.android.rxandroid2Version"
 
-    implementation 'com.dyhdyh.loadingbar:loadingbar:1.4.7'
+    implementation 'com.dyhdyh.loadingbar2:loadingbar:2.0.0-beta1'
 
     compile project(':subscribers')
     compile project(':subscribers-loadingbar')

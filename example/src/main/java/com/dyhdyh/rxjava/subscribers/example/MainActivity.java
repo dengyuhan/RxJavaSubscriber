@@ -1,23 +1,26 @@
 package com.dyhdyh.rxjava.subscribers.example;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.dyhdyh.subscriber.rxjava2.RxJava2Observable;
-import com.dyhdyh.subscribers.loadingbar.rxjava2.SimpleLoadingBarObserver;
-import com.dyhdyh.subscribers.loadingbar.rxjava2.SimpleLoadingDialogObserver;
-
-import java.util.Random;
+import com.dyhdyh.subscribers.loadingbar.LoadingDialogTransformer;
+import com.dyhdyh.subscribers.loadingbar.LoadingViewTransformer;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class MainActivity extends AppCompatActivity {
     View layoutContent;
+    View errorContainer;
     TextView tv_result;
 
     @Override
@@ -25,49 +28,81 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         layoutContent = findViewById(R.id.layout_content);
+        errorContainer = findViewById(R.id.layout_error);
         tv_result = findViewById(R.id.tv_result);
     }
 
 
     public void clickLoadingBarSubscriber(View view) {
-        createAsyncObservable()
-                .subscribe(new SimpleLoadingBarObserver<String>(layoutContent, "加载失败") {
-                    @Override
-                    public void onNext(String s) {
-                        super.onNext(s);
-                        tv_result.setText(s);
-                    }
-                });
+        createAsyncObservable(false)
+                .compose(new LoadingViewTransformer(layoutContent, errorContainer))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onNext(), onError());
+    }
+
+
+    public void clickLoadingViewError(View view) {
+        createAsyncObservable(true)
+                .compose(new LoadingViewTransformer(layoutContent, errorContainer, "默认提示", "默认错误提示"))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onNext(), onError());
     }
 
     public void clickLoadingDialogSubscriber(View view) {
-        createAsyncObservable()
-                .subscribe(new SimpleLoadingDialogObserver<String>(this, "正在加载", "加载失败") {
-                    @Override
-                    public void onNext(String s) {
-                        super.onNext(s);
-                        tv_result.setText(s);
-                    }
-                });
+        createAsyncObservable(false)
+                .compose(new LoadingDialogTransformer(this))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onNext(), onError());
+    }
+
+    public void clickLoadingDialogError(View view) {
+        createAsyncObservable(true)
+                .compose(new LoadingDialogTransformer(this, "默认提示", "默认错误提示"))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onNext(), onError());
     }
 
 
-    public Observable<String> createAsyncObservable() {
+    private Observable<String> createAsyncObservable(final boolean error) {
         return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
                 try {
                     Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    if (error) {
+                        String s = null;
+                        s.length();
+                    } else {
+                        emitter.onNext("成功");
+                    }
+                    emitter.onComplete();
+                } catch (Exception e) {
+                    emitter.onError(e);
                 }
-                if (new Random().nextBoolean()) {
-                    emitter.onNext("成功");
-                } else {
-                    emitter.onError(new Exception("随机失败"));
-                }
-                emitter.onComplete();
             }
-        }).compose(RxJava2Observable.<String>io2main());
+        }).subscribeOn(Schedulers.io());
     }
+
+
+    @NonNull
+    private Consumer<String> onNext() {
+        return new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                tv_result.setText(s);
+                Log.d("------>", "onNext--->" + Thread.currentThread().getName());
+            }
+        };
+    }
+
+    @NonNull
+    private Consumer<Throwable> onError() {
+        return new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.d("------>", "onError--->" + Thread.currentThread().getName());
+            }
+        };
+    }
+
 }
