@@ -1,6 +1,7 @@
 package com.dyhdyh.subscribers.loadingbar.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +33,7 @@ public class SimpleErrorLayout extends RelativeLayout{
     }
 
     private void init(Context context, AttributeSet attrs) {
+        setBackgroundColor(Color.WHITE);
         View.inflate(getContext(), R.layout.loadingbar_layout_simple_error, this);
         mMessageView = (TextView) findViewById(R.id.tv_error_message);
     }

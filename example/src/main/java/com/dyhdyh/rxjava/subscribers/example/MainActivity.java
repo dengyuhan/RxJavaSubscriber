@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickLoadingBarSubscriber(View view) {
         createAsyncObservable(false)
-                .compose(new LoadingViewTransformer(layoutContent, errorContainer))
+                .compose(new LoadingViewTransformer(layoutContent))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onNext(), onError());
     }
@@ -43,7 +43,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickLoadingViewError(View view) {
         createAsyncObservable(true)
-                .compose(new LoadingViewTransformer(layoutContent, errorContainer, "默认提示", "默认错误提示"))
+                .compose(new CustomViewTransformer(layoutContent, "默认提示", "默认错误提示", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickLoadingViewError(v);
+                    }
+                }))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onNext(), onError());
     }

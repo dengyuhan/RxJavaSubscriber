@@ -16,7 +16,7 @@ import io.reactivex.functions.Consumer;
  * @author dengyuhan
  * created 2019/3/18 14:39
  */
-public class LoadingDialogTransformer<T> extends LoadingObservableTransformer {
+public class LoadingDialogTransformer<T> extends LoadingTransformer<T> {
     private Context mContext;
     private CharSequence mDefaultMessage;
     private CharSequence mDefaultErrorMessage;
@@ -33,7 +33,7 @@ public class LoadingDialogTransformer<T> extends LoadingObservableTransformer {
 
     @NonNull
     @Override
-    protected Consumer<Disposable> getShowConsumer() {
+    protected Consumer<Disposable> showLoadingConsumer() {
         return new Consumer<Disposable>() {
             @Override
             public void accept(Disposable disposable) throws Exception {
@@ -47,7 +47,7 @@ public class LoadingDialogTransformer<T> extends LoadingObservableTransformer {
 
     @NonNull
     @Override
-    protected Consumer<Throwable> getErrorConsumer() {
+    protected Consumer<Throwable> showErrorConsumer() {
         return new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
@@ -61,7 +61,7 @@ public class LoadingDialogTransformer<T> extends LoadingObservableTransformer {
 
     @NonNull
     @Override
-    protected Action getCancelAction() {
+    protected Action cancelLoadingAction() {
         return new Action() {
             @Override
             public void run() throws Exception {

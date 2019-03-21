@@ -1,5 +1,6 @@
 package com.dyhdyh.subscribers.loadingbar;
 
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -15,26 +16,28 @@ import io.reactivex.functions.Consumer;
  * @author dengyuhan
  * created 2019/3/18 14:39
  */
-public class LoadingViewTransformer<T> extends LoadingObservableTransformer {
-    private View mParent;
-    private View mErrorParent;
-    private CharSequence mDefaultMessage;
-    private CharSequence mDefaultErrorMessage;
+public class LoadingViewTransformer<T> extends LoadingTransformer<T> {
+    protected View mParent;
+    protected CharSequence mDefaultMessage;
+    protected CharSequence mDefaultErrorMessage;
 
-    public LoadingViewTransformer(View parent, View errorParent) {
-        this(parent, errorParent, null, null);
+    public LoadingViewTransformer(View parent) {
+        this(parent, null, null);
     }
 
-    public LoadingViewTransformer(View parent, View errorParent, CharSequence defaultMessage, CharSequence defaultErrorMessage) {
+    public LoadingViewTransformer(View parent, @StringRes int defaultMessageRes, @StringRes int defaultErrorMessageRes) {
+        this(parent, parent.getResources().getText(defaultMessageRes), parent.getResources().getText(defaultErrorMessageRes));
+    }
+
+    public LoadingViewTransformer(View parent, CharSequence defaultMessage, CharSequence defaultErrorMessage) {
         this.mParent = parent;
-        this.mErrorParent = errorParent;
         this.mDefaultMessage = defaultMessage;
         this.mDefaultErrorMessage = defaultErrorMessage;
     }
 
     @NonNull
     @Override
-    protected Consumer<Disposable> getShowConsumer() {
+    protected Consumer<Disposable> showLoadingConsumer() {
         return new Consumer<Disposable>() {
             @Override
             public void accept(Disposable disposable) throws Exception {
@@ -47,13 +50,13 @@ public class LoadingViewTransformer<T> extends LoadingObservableTransformer {
 
     @NonNull
     @Override
-    protected Consumer<Throwable> getErrorConsumer() {
+    protected Consumer<Throwable> showErrorConsumer() {
         return new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
                 if (!TextUtils.isEmpty(mDefaultErrorMessage)) {
-                    LoadingBar.view(mErrorParent)
-                            .setFactoryFromView(SimpleErrorLayout.create(mErrorParent.getContext(), mDefaultErrorMessage))
+                    LoadingBar.view(mParent)
+                            .setFactoryFromView(SimpleErrorLayout.create(mParent.getContext(), mDefaultErrorMessage))
                             .show();
                 }
             }
@@ -62,7 +65,7 @@ public class LoadingViewTransformer<T> extends LoadingObservableTransformer {
 
     @NonNull
     @Override
-    protected Action getCancelAction() {
+    protected Action cancelLoadingAction() {
         return new Action() {
             @Override
             public void run() throws Exception {
